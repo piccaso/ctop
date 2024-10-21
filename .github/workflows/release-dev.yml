@@ -68,7 +68,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.increment_tag.outputs.new_tag }}  # Use the newly created version tag
+          tag_name: ${{ steps.increment_tag.outputs.new_tag }}
           release_name: Release ${{ steps.increment_tag.outputs.new_tag }}
           draft: false
           prerelease: true  # Mark this as a pre-release since it's dev
