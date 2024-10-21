@@ -7,12 +7,12 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/bcicen/ctop/config"
-	"github.com/bcicen/ctop/connector"
-	"github.com/bcicen/ctop/container"
-	"github.com/bcicen/ctop/cwidgets/compact"
-	"github.com/bcicen/ctop/logging"
-	"github.com/bcicen/ctop/widgets"
+	"github.com/lordoverlord/ctop/config"
+	"github.com/lordoverlord/ctop/connector"
+	"github.com/lordoverlord/ctop/container"
+	"github.com/lordoverlord/ctop/cwidgets/compact"
+	"github.com/lordoverlord/ctop/logging"
+	"github.com/lordoverlord/ctop/widgets"
 	ui "github.com/gizak/termui"
 	tm "github.com/nsf/termbox-go"
 )

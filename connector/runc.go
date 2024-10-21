@@ -11,9 +11,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/bcicen/ctop/connector/collector"
-	"github.com/bcicen/ctop/connector/manager"
-	"github.com/bcicen/ctop/container"
+	"github.com/lordoverlord/ctop/connector/collector"
+	"github.com/lordoverlord/ctop/connector/manager"
+	"github.com/lordoverlord/ctop/container"
 	"github.com/opencontainers/runc/libcontainer"
 )
 
