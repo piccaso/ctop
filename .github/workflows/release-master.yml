@@ -1,9 +1,10 @@
 name: Build and Release ctop for master
 
 on:
-  push:
-    tags:
-      - 'master'  # This will trigger the action when you push a tag like dev, dev1.0, dev-1.0, etc.
+    push:
+      branches: [ amster ]
+    pull_request:
+      branches: [ master ]
 
 jobs:
   build:
