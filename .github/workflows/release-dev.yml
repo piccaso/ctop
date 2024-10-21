@@ -22,10 +22,6 @@ jobs:
       - name: Tidy up Go modules and get missing dependencies
         run: |
             go mod tidy  # Clean up and download necessary dependencies
-            go get github.com/docker/docker/pkg/archive@v20.10.0-beta1.0.20201113105859-b6bfff2a628f+incompatible
-            go get github.com/lordoverlord/ctop/connector
-            go get github.com/lordoverlord/ctop/connector/collector
-            go get github.com/docker/docker/pkg/idtools@v20.10.0-beta1.0.20201113105859-b6bfff2a628f+incompatible
 
       - name: Build binary for amd64
         run: |
@@ -39,14 +35,18 @@ jobs:
           tar -czvf ctop-darwin-amd64.tar.gz ctop-darwin-amd64
           zip ctop-windows-amd64.zip ctop-windows-amd64.exe
 
+      - name: Extract tag name
+        id: extract_tag
+        run: echo "::set-output name=tag::${GITHUB_REF#refs/heads/}"
+
       - name: Create GitHub Release
         id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}  # This uses the tag that triggered the workflow
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ steps.extract_tag.outputs.tag }}  # Use the extracted tag
+          release_name: Release ${{ steps.extract_tag.outputs.tag }}
           draft: false
           prerelease: true  # Mark this as a pre-release since it's dev
 
