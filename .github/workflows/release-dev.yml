@@ -29,16 +29,38 @@ jobs:
           GOOS=darwin GOARCH=amd64 go build -o ctop-darwin-amd64
           GOOS=windows GOARCH=amd64 go build -o ctop-windows-amd64
 
-      - name: Create new tag using timestamp
-        id: create_tag
+      - name: Get latest version tag
+        id: get_latest_tag
         run: |
-          TAG="dev-$(date +'%Y%m%d%H%M%S')"   # Create a timestamp-based tag
-          echo "New tag created: $TAG"
+          # Fetch tags and find the latest one
+          git fetch --tags
+          LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+          echo "Latest tag is $LATEST_TAG"
+          # Set output for later steps
+          echo "::set-output name=latest_tag::$LATEST_TAG"
+
+      - name: Increment version tag
+        id: increment_tag
+        run: |
+          # Extract the major, minor, and patch components of the version
+          LATEST_TAG=${{ steps.get_latest_tag.outputs.latest_tag }}
+          VERSION=$(echo $LATEST_TAG | grep -oP 'v\K\d+\.\d+\.\d+')
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+          # Increment the patch version
+          PATCH=$((PATCH + 1))
+          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+          echo "New version tag is $NEW_TAG"
+          # Set the new tag output for later steps
+          echo "::set-output name=new_tag::$NEW_TAG"
+
+      - name: Create new tag
+        run: |
+          NEW_TAG=${{ steps.increment_tag.outputs.new_tag }}
+          echo "Creating new tag: $NEW_TAG"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
-          git tag $TAG
-          git push origin $TAG
-          echo "::set-output name=tag::$TAG"
+          git tag $NEW_TAG
+          git push origin $NEW_TAG
 
       - name: Create GitHub Release
         id: create_release
@@ -46,8 +68,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.create_tag.outputs.tag }}  # Use the newly created tag
-          release_name: Release ${{ steps.create_tag.outputs.tag }}
+          tag_name: ${{ steps.increment_tag.outputs.new_tag }}  # Use the newly created version tag
+          release_name: Release ${{ steps.increment_tag.outputs.new_tag }}
           draft: false
           prerelease: true  # Mark this as a pre-release since it's dev
 
