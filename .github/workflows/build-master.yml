@@ -2,8 +2,9 @@ name: Build and Deploy
 
 on:
   push:
-    branches:
-      - master
+    branches: [ amster ]
+  pull_request:
+    branches: [ master ]
 
 env:
   REGISTRY: ghcr.io
@@ -40,18 +41,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Tag Docker image with latest and version
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker tag ctop ghcr.io/${{ github.repository }}:latest
-          docker tag ctop ghcr.io/${{ github.repository }}:$(cat VERSION)
-          docker push ghcr.io/${{ github.repository }}:latest
-          docker push ghcr.io/${{ github.repository }}:$(cat VERSION)
-
       - name: Run Snyk to check Docker image for vulnerabilities
         uses: snyk/actions/docker@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          image: ghcr.io/${{ github.repository }}:latest
+          image: ghcr.io/${{ github.repository }}:master
           command: monitor
