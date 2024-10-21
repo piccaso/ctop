@@ -42,16 +42,23 @@ jobs:
       - name: Increment version tag
         id: increment_tag
         run: |
-          # Extract the major, minor, and patch components of the version
-          LATEST_TAG=${{ steps.get_latest_tag.outputs.latest_tag }}
-          VERSION=$(echo $LATEST_TAG | grep -oP 'v\K\d+\.\d+\.\d+')
-          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
-          # Increment the patch version
-          PATCH=$((PATCH + 1))
-          NEW_TAG="v$MAJOR.$MINOR.$PATCH"
-          echo "New version tag is $NEW_TAG"
-          # Set the new tag output for later steps
-          echo "::set-output name=new_tag::$NEW_TAG"
+            LATEST_TAG=${{ steps.get_latest_tag.outputs.latest_tag }}
+            # Check if the latest tag is in the vX.Y.Z format
+            if [[ "$LATEST_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              # Extract the major, minor, and patch components of the version
+              VERSION=$(echo $LATEST_TAG | grep -oP 'v\K\d+\.\d+\.\d+')
+              IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+              # Increment the patch version
+              PATCH=$((PATCH + 1))
+              NEW_TAG="v$MAJOR.$MINOR.$PATCH"
+            else
+              # If the latest tag is not in vX.Y.Z format, start at v0.1.0
+              echo "No valid version tag found. Starting at v0.1.0"
+              NEW_TAG="v0.1.0"
+            fi
+            echo "New version tag is $NEW_TAG"
+            # Set the new tag output for later steps
+            echo "::set-output name=new_tag::$NEW_TAG"
 
       - name: Create new tag
         run: |
