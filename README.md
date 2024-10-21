@@ -15,7 +15,7 @@ as well as a [single container view][single_view] for inspecting a specific cont
 
 ## Install
 
-Fetch the [latest release](https://github.com/bcicen/ctop/releases) for your platform:
+Fetch the [latest release](https://github.com/lordoverlord/ctop/releases) for your platform:
 
 #### Debian/Ubuntu
 
@@ -42,7 +42,7 @@ _`ctop` is also available for Arch in the [AUR](https://aur.archlinux.org/packag
 #### Linux (Generic)
 
 ```bash
-sudo wget https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
+sudo wget https://github.com/lordoverlord/ctop/releases/download/v0.7.7/ctop-0.7.7-linux-amd64 -O /usr/local/bin/ctop
 sudo chmod +x /usr/local/bin/ctop
 ```
 
@@ -57,7 +57,7 @@ sudo port install ctop
 ```
 or
 ```bash
-sudo curl -Lo /usr/local/bin/ctop https://github.com/bcicen/ctop/releases/download/v0.7.7/ctop-0.7.7-darwin-amd64
+sudo curl -Lo /usr/local/bin/ctop https://github.com/lordoverlord/ctop/releases/download/v0.7.7/ctop-0.7.7-darwin-amd64
 sudo chmod +x /usr/local/bin/ctop
 ```
 
@@ -125,7 +125,7 @@ Option | Description
 [build]: _docs/build.md
 [connectors]: _docs/connectors.md
 [single_view]: _docs/single.md
-[release]: https://img.shields.io/github/release/bcicen/ctop.svg "ctop"
+[release]: https://img.shields.io/github/release/lordoverlord/ctop.svg "ctop"
 [homebrew]: https://img.shields.io/homebrew/v/ctop.svg "ctop"
 [macports]: https://repology.org/badge/version-for-repo/macports/ctop.svg?header=macports "ctop"
 [scoop]: https://img.shields.io/scoop/v/ctop?bucket=main "ctop"
