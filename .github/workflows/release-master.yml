@@ -76,7 +76,7 @@ jobs:
           tag_name: ${{ steps.increment_tag.outputs.new_tag }}
           release_name: Release ${{ steps.increment_tag.outputs.new_tag }}
           draft: false
-          prerelease: true  # Mark this as a pre-release since it's dev
+          prerelease: false
 
       # Upload the Linux binary
       - name: Upload Linux amd64 binary to release
