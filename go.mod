@@ -11,7 +11,7 @@ require (
 	github.com/nsf/termbox-go v0.0.0-20190121233118-02980233997d
 	github.com/nu7hatch/gouuid v0.0.0-20131221200532-179d4d0c4d8d
 	github.com/op/go-logging v0.0.0-20160211212156-b2cb9fa56473
-	github.com/opencontainers/runc v1.1.0
+	github.com/opencontainers/runc v1.1.12
 	github.com/pkg/browser v0.0.0-20201207095918-0426ae3fba23
 	github.com/pkg/errors v0.9.1
 	github.com/stretchr/testify v1.4.0
@@ -25,7 +25,7 @@ require (
 	github.com/cilium/ebpf v0.7.0 // indirect
 	github.com/containerd/cgroups v0.0.0-20200531161412-0dbf7f05ba59 // indirect
 	github.com/containerd/console v1.0.3 // indirect
-	github.com/containerd/containerd v1.4.1 // indirect
+	github.com/containerd/containerd v1.7.13 // indirect
 	github.com/containerd/continuity v0.0.0-20200928162600-f2cc35102c2a // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect
 	github.com/cyphar/filepath-securejoin v0.2.3 // indirect
@@ -49,12 +49,12 @@ require (
 	github.com/opencontainers/selinux v1.10.0 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/seccomp/libseccomp-golang v0.9.2-0.20210429002308-3879420cc921 // indirect
-	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/sirupsen/logrus v1.9.1 // indirect
 	github.com/syndtr/gocapability v0.0.0-20200815063812-42c35b437635 // indirect
 	github.com/vishvananda/netlink v1.1.0 // indirect
 	github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
-	go.opencensus.io v0.22.0 // indirect
-	golang.org/x/net v0.0.0-20201224014010-6772e930b67b // indirect
+	go.opencensus.io v1.58.3 // indirect
+	golang.org/x/net v0.17.0-20201224014010-6772e930b67b // indirect
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	golang.org/x/sys v0.0.0-20211116061358-0a5406a5449c // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
