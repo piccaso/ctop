@@ -29,9 +29,16 @@ jobs:
           GOOS=darwin GOARCH=amd64 go build -o ctop-darwin-amd64
           GOOS=windows GOARCH=amd64 go build -o ctop-windows-amd64
 
-      - name: Extract tag name
-        id: extract_tag
-        run: echo "::set-output name=tag::${GITHUB_REF#refs/heads/}"
+      - name: Create new tag using timestamp
+        id: create_tag
+        run: |
+          TAG="dev-$(date +'%Y%m%d%H%M%S')"   # Create a timestamp-based tag
+          echo "New tag created: $TAG"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git tag $TAG
+          git push origin $TAG
+          echo "::set-output name=tag::$TAG"
 
       - name: Create GitHub Release
         id: create_release
@@ -39,8 +46,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.extract_tag.outputs.tag }}  # Use the extracted tag
-          release_name: Release ${{ steps.extract_tag.outputs.tag }}
+          tag_name: ${{ steps.create_tag.outputs.tag }}  # Use the newly created tag
+          release_name: Release ${{ steps.create_tag.outputs.tag }}
           draft: false
           prerelease: true  # Mark this as a pre-release since it's dev
 
