@@ -27,13 +27,7 @@ jobs:
         run: |
           GOOS=linux GOARCH=amd64 go build -o ctop-linux-amd64
           GOOS=darwin GOARCH=amd64 go build -o ctop-darwin-amd64
-          GOOS=windows GOARCH=amd64 go build -o ctop-windows-amd64.exe
-
-      - name: Archive binaries
-        run: |
-          tar -czvf ctop-linux-amd64.tar.gz ctop-linux-amd64
-          tar -czvf ctop-darwin-amd64.tar.gz ctop-darwin-amd64
-          zip ctop-windows-amd64.zip ctop-windows-amd64.exe
+          GOOS=windows GOARCH=amd64 go build -o ctop-windows-amd64
 
       - name: Extract tag name
         id: extract_tag
@@ -57,9 +51,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output from the release step
-          asset_path: ./ctop-linux-amd64.tar.gz
-          asset_name: ctop-linux-amd64.tar.gz
-          asset_content_type: application/gzip
+          asset_path: ./ctop-linux-amd64
+          asset_name: ctop-linux-amd64
+          asset_content_type: application/octet-stream
 
       # Upload the macOS binary
       - name: Upload Darwin amd64 binary to release
@@ -68,9 +62,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output
-          asset_path: ./ctop-darwin-amd64.tar.gz
-          asset_name: ctop-darwin-amd64.tar.gz
-          asset_content_type: application/gzip
+          asset_path: ./ctop-darwin-amd64
+          asset_name: ctop-darwin-amd64
+          asset_content_type: application/octet-stream
 
       # Upload the Windows binary
       - name: Upload Windows amd64 binary to release
@@ -79,6 +73,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output
-          asset_path: ./ctop-windows-amd64.zip
-          asset_name: ctop-windows-amd64.zip
-          asset_content_type: application/zip
+          asset_path: ./ctop-windows-amd64
+          asset_name: ctop-windows-amd64
+          asset_content_type: application/octet-stream
