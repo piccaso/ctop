@@ -19,6 +19,14 @@ jobs:
         with:
           go-version: 1.18  # Specify the Go version you want to use
 
+      - name: Tidy up Go modules and get missing dependencies
+        run: |
+            go mod tidy  # Clean up and download necessary dependencies
+            go get github.com/docker/docker/pkg/archive@v20.10.0-beta1.0.20201113105859-b6bfff2a628f+incompatible
+            go get github.com/lordoverlord/ctop/connector
+            go get github.com/lordoverlord/ctop/connector/collector
+            go get github.com/docker/docker/pkg/idtools@v20.10.0-beta1.0.20201113105859-b6bfff2a628f+incompatible
+
       - name: Build binary for amd64
         run: |
           GOOS=linux GOARCH=amd64 go build -o ctop-linux-amd64
