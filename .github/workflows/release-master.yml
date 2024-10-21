@@ -1,8 +1,8 @@
 name: Build and Release ctop for master
 
 on:
-    push:
-      branches: [ master ]
+  push:
+    branches: [ master ]
 
 jobs:
   build:
@@ -20,6 +20,13 @@ jobs:
       - name: Tidy up Go modules and get missing dependencies
         run: |
             go mod tidy  # Clean up and download necessary dependencies
+
+      # Add the Snyk scan step
+      - uses: snyk/actions/setup@master  # Correct Snyk setup action
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk test  # Run the Snyk test to scan for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  # Ensure your Snyk token is set
 
       - name: Build binary for amd64
         run: |
