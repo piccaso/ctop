@@ -1,0 +1,75 @@
+name: Build and Release ctop for dev
+
+on:
+  push:
+    tags:
+      - 'dev'  # This will trigger the action when you push a tag like dev, dev1.0, dev-1.0, etc.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.18  # Specify the Go version you want to use
+
+      - name: Build binary for amd64
+        run: |
+          GOOS=linux GOARCH=amd64 go build -o ctop-linux-amd64
+          GOOS=darwin GOARCH=amd64 go build -o ctop-darwin-amd64
+          GOOS=windows GOARCH=amd64 go build -o ctop-windows-amd64.exe
+
+      - name: Archive binaries
+        run: |
+          tar -czvf ctop-linux-amd64.tar.gz ctop-linux-amd64
+          tar -czvf ctop-darwin-amd64.tar.gz ctop-darwin-amd64
+          zip ctop-windows-amd64.zip ctop-windows-amd64.exe
+
+      - name: Create GitHub Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}  # This uses the tag that triggered the workflow
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: true  # Mark this as a pre-release since it's dev
+
+      # Upload the Linux binary
+      - name: Upload Linux amd64 binary to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output from the release step
+          asset_path: ./ctop-linux-amd64.tar.gz
+          asset_name: ctop-linux-amd64.tar.gz
+          asset_content_type: application/gzip
+
+      # Upload the macOS binary
+      - name: Upload Darwin amd64 binary to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output
+          asset_path: ./ctop-darwin-amd64.tar.gz
+          asset_name: ctop-darwin-amd64.tar.gz
+          asset_content_type: application/gzip
+
+      # Upload the Windows binary
+      - name: Upload Windows amd64 binary to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}  # Use the upload URL output
+          asset_path: ./ctop-windows-amd64.zip
+          asset_name: ctop-windows-amd64.zip
+          asset_content_type: application/zip
