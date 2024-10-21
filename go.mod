@@ -53,7 +53,7 @@ require (
 	github.com/syndtr/gocapability v0.0.0-20200815063812-42c35b437635 // indirect
 	github.com/vishvananda/netlink v1.1.0 // indirect
 	github.com/vishvananda/netns v0.0.0-20191106174202-0a2b9b5464df // indirect
-	go.opencensus.io v1.58.3 // indirect
+	go.opencensus.io v1.67.1 // indirect
 	golang.org/x/net v0.17.0-20201224014010-6772e930b67b // indirect
 	golang.org/x/sync v0.0.0-20190423024810-112230192c58 // indirect
 	golang.org/x/sys v0.0.0-20211116061358-0a5406a5449c // indirect
