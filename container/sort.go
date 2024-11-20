@@ -2,8 +2,11 @@ package container
 
 import (
 	"fmt"
+	"os"
 	"regexp"
+	"slices"
 	"sort"
+	"strings"
 
 	"github.com/lordoverlord/ctop/config"
 )
@@ -114,6 +117,12 @@ func (a Containers) Filter() {
 	filter := config.GetVal("filterStr")
 	re := regexp.MustCompile(fmt.Sprintf(".*%s", filter))
 
+	parts := []string{}
+	idStrings, hasIds := os.LookupEnv("CONTAINER_IDS")
+	if hasIds {
+		parts = strings.Split(idStrings, "")
+	}
+
 	for _, c := range a {
 		c.Display = true
 		// Apply name filter
@@ -123,6 +132,10 @@ func (a Containers) Filter() {
 		// Apply state filter
 		if !config.GetSwitchVal("allContainers") && c.GetMeta("state") != "running" {
 			c.Display = false
+		}
+		// Apply CONTAINER_IDS filter
+		if hasIds {
+			c.Display = slices.Contains(parts, c.Id)
 		}
 	}
 }
